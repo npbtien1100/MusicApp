@@ -6,3 +6,7 @@ exports.test = async () => {
     const res = Object.fromEntries(newEntriesArray);
     return res;
 }
+exports.test2 = async()=>{
+    const temp = await spotifyApi.getRecommendations({seed_tracks: '3Ofmpyhv5UAQ70mENzB277'})
+    return temp;
+}

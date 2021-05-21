@@ -1,7 +1,6 @@
 const testService = require('../services/testService')
 
 exports.test = async (req, res, next) => {
-
 const data=await testService.test();
 try {
     res.json(data);
@@ -16,4 +15,13 @@ try {
   } catch (error) {
     res.status(400).json("Error: " + error);
   } */
+}
+
+exports.test2 = async(req, res, next)=>{
+  const data = await testService.test2();
+  try{
+    res.send(data);
+  }catch(error){
+    res.status(400).json("Error: " + error);
+  }
 }
