@@ -1,17 +1,33 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var app = express();
+
+//passport
+const session = require('express-session');
+const passport = require('passport');
+require('./passport/passport')(passport);
+
+// Express session
+app.use(
+  session({ secret: 'keyboard cat', resave: true, saveUninitialized: true })
+);
+// Initialize Passport!  Also use passport.session() middleware, to support
+// persistent login sessions (recommended).
+app.use(passport.initialize());
+app.use(passport.session());
+
+//routers
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const tracksRouter = require('./routes/tracks');
 const artistsRouter = require('./routes/artists');
 const genresRouter = require('./routes/genres');
-var app = express();
-
-
+const loginRouter = require('./routes/login')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,13 +44,14 @@ app.use('/users', usersRouter);
 app.use('/tracks', tracksRouter);
 app.use('/artists', artistsRouter);
 app.use('/genres', genresRouter);
+app.use('/login', loginRouter);
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -49,4 +66,5 @@ const port = process.env.PORT || 5000;
 //   console.log(`Server is running on port: ${port}`);
 // });
 console.log(`Server is running on port: ${port}`);
-module.exports = app;
+module.exports.passport = passport;
+module.exports.app = app;
