@@ -5,6 +5,6 @@ const genreController = require('../controllers/genreController');
 /* GET users listing. */
 
 router.get('/getseeds', genreController.getseeds);    //'/artists/search?name=abcd'
-router.get('/:id', genreController.getSimilarSongs);    
+router.get('/generate/:id', genreController.getSimilarSongs);    
 
 module.exports = router;

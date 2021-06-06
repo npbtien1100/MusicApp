@@ -2,8 +2,8 @@ const SpotifyStrategy = require('passport-spotify').Strategy;
 const { use } = require('passport');
 //Load User model 
 
-const authCallbackPath= '/login/callback';
-
+const authCallbackPath = '/login/callback';
+const port = process.env.PORT || 5000;
 module.exports = (passport) => {
 
     passport.use(
@@ -11,7 +11,7 @@ module.exports = (passport) => {
             {
                 clientID: process.env.CLIENT_ID,
                 clientSecret: process.env.CLIENT_SECRET,
-                callbackURL: 'http://localhost:5000/login/callback' //+ process.env.PORT + authCallbackPath,
+                callbackURL: 'http://localhost:' + port + authCallbackPath,
             },
             function (accessToken, refreshToken, expires_in, profile, done) {
                 // asynchronous verification, for effect...
@@ -20,13 +20,14 @@ module.exports = (passport) => {
                     // represent the logged-in user. In a typical application, you would want
                     // to associate the spotify account with a user record in your database,
                     // and return that user instead.
-                    return done(null, profile);
+                    return done(null, {"id":profile.id, "accToken":accessToken});
                 });
             }
         )
     );
     passport.serializeUser((user, done) => {
         console.log("user day ne: ", user);
+        //console.log("Access Token day ne: ", accessToken);
         done(null, user);
     });
     // passport.deserializeUser(async (id, done) => {
@@ -41,8 +42,8 @@ module.exports = (passport) => {
 
     //     return done(null, user);
     // });
-    passport.deserializeUser((obj, done)=>{
-        console.log("Ham deserialize ne: ",obj);
+    passport.deserializeUser((obj, done) => {
+        console.log("Ham deserialize ne: ", obj);
         done(null, obj);
     });
 }

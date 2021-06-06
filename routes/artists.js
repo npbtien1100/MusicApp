@@ -6,6 +6,6 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 router.get('/search', artistController.searchArtists);    //'/artists/search?name=abcd'
-router.get('/:id', artistController.getSimilarSongs);    
+router.get('/generate/:id', artistController.getSimilarSongs);    
 
 module.exports = router;

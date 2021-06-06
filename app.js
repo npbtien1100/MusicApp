@@ -12,6 +12,8 @@ const session = require('express-session');
 const passport = require('passport');
 require('./passport/passport')(passport);
 
+module.exports.passport = passport;
+
 // Express session
 app.use(
   session({ secret: 'keyboard cat', resave: true, saveUninitialized: true })
@@ -20,6 +22,8 @@ app.use(
 // persistent login sessions (recommended).
 app.use(passport.initialize());
 app.use(passport.session());
+
+
 
 //routers
 var indexRouter = require('./routes/index');
@@ -66,5 +70,5 @@ const port = process.env.PORT || 5000;
 //   console.log(`Server is running on port: ${port}`);
 // });
 console.log(`Server is running on port: ${port}`);
-module.exports.passport = passport;
+
 module.exports.app = app;
