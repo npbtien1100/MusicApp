@@ -31,7 +31,6 @@ exports.getRecommendations = async (id, obj) => {
             for (i = 0; i < element.artists.length - 1; i++) {
                 artistname += element.artists[i].name + ", ";
             }
-            console.log("i day ne: " + i);
             artistname += element.artists[i].name;
             res.tracks.push({ "id": id, "song": songname, "image": image, "artists": artistname });
         });

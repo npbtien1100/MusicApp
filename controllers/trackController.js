@@ -23,12 +23,12 @@ exports.getAudioFeatures = async (req, res, next) => {
 
 exports.getSimilarSongs = async (req, res, next) => {
     console.log("id: " + req.params.id);
-    req.query.acousticness == 'null' ? req.query.acousticness = undefined : req.query.acousticness = Number(req.query.acousticness)/100;
-    req.query.danceability == 'null' ? req.query.danceability = undefined : req.query.danceability = Number(req.query.danceability)/100;
-    req.query.instrumentalness == 'null' ? req.query.instrumentalness = undefined : req.query.instrumentalness = Number(req.query.instrumentalness)/100;
-    req.query.energy == 'null' ? req.query.energy = undefined : req.query.energy = Number(req.query.energy)/100;
-    req.query.valence == 'null' ? req.query.valence = undefined : req.query.valence = Number(req.query.valence)/100;
-    req.query.speechiness == 'null' ? req.query.speechiness = undefined : req.query.speechiness = Number(req.query.speechiness)/100;
+    req.query.acousticness ? (req.query.acousticness = Number(req.query.acousticness) / 100) : "";
+    req.query.danceability ? (req.query.danceability = Number(req.query.danceability) / 100) : "";
+    req.query.instrumentalness ? (req.query.instrumentalness = Number(req.query.instrumentalness) / 100) : "";
+    req.query.energy ? (req.query.energy = Number(req.query.energy) / 100) : "";
+    req.query.valence ? (req.query.valence = Number(req.query.valence) / 100) : "";
+    req.query.speechiness ? (req.query.speechiness = Number(req.query.speechiness) / 100) : "";
     const obj = {
         seed_tracks: req.params.id, limit: Number(req.query.n),
         target_acousticness: req.query.acousticness,
