@@ -20,26 +20,37 @@ exports.searchTracks = async (query) => {
 
 exports.getAudioFeaturesForTrack = async (id) => {
     const temp = await spotifyApi.getAudioFeaturesForTrack(id);
-    const res = {
-        "danceability": temp.body.danceability * 100,
-        "energy": temp.body.energy * 100, "key": temp.body.key,
-        "speechiness": temp.body.speechiness * 100,
-        "acousticness": temp.body.acousticness * 100,
-        "instrumentalness": temp.body.instrumentalness * 100,
-        "liveness": temp.body.liveness * 100, "valence": temp.body.valence * 100,
-        "tempo": temp.body.tempo,
-        "loudness": temp.body.loudness,
-        "duration_ms": temp.body.duration_ms
+    const temp2 = await spotifyApi.getTrack(id);
+
+    const res = { "track": {}, "features": {} };
+
+    let artistname = "";
+    for (i = 0; i < temp2.body.artists.length - 1; i++) {
+        artistname += temp2.body.artists[i].name + ", ";
     }
+    artistname += temp2.body.artists[i].name;
+    res["track"] = { "id": id, "song": temp2.body.name, "image": temp2.body.album.images[0].url, "artists": artistname };
+
+    res.features["danceability"] = temp.body.danceability * 100;
+    res.features["energy"] = temp.body.energy * 100;
+    res.features["key"] = temp.body.key;
+    res.features["speechiness"] = temp.body.speechiness * 100;
+    res.features["acousticness"] = temp.body.acousticness * 100;
+    res.features["instrumentalness"] = temp.body.instrumentalness * 100;
+    res.features["liveness"] = temp.body.liveness * 100;
+    res.features["valence"] = temp.body.valence * 100;
+    res.features["tempo"] = temp.body.tempo;
+    res.features["loudness"] = temp.body.loudness;
+    res.features["duration_ms"] = temp.body.duration_ms;
     return res;
 }
 
 
 exports.getRecommendations = async (id, obj) => {
     try {
-        const temp = await spotifyApi.getRecommendations({ seed_tracks: id, target_instrumentalness: undefined });
+        const temp = await spotifyApi.getRecommendations(obj);
         const temp2 = await spotifyApi.getTrack(id);
-        const res = { "seed_track": {}, "tracks": [] };
+        const res = { "seed_track": {}, "playlist_duration": "", "tracks": [] };
 
         let artistname = "";
         for (i = 0; i < temp2.body.artists.length - 1; i++) {
@@ -49,6 +60,7 @@ exports.getRecommendations = async (id, obj) => {
         const seed_track = { "id": id, "song": temp2.body.name, "image": temp2.body.album.images[0].url, "artists": artistname };
         res["seed_track"] = seed_track;
 
+        let total_ms = 0;
         temp.body.tracks.forEach((element, index) => {
             const songname = element.name;
             const image = element.album.images[1].url;
@@ -58,8 +70,19 @@ exports.getRecommendations = async (id, obj) => {
                 artistname += element.artists[i].name + ", ";
             }
             artistname += element.artists[i].name;
+            total_ms += element.duration_ms;
             res.tracks.push({ "id": id, "song": songname, "image": image, "artists": artistname });
         });
+        total_ms = total_ms / 1000;
+        // Hours, minutes and seconds
+        const hrs = parseInt(total_ms / 3600);
+        total_ms -= hrs * 3600;
+        const mins = parseInt(total_ms / 60);
+        total_ms -= mins * 60;
+        const secs = parseInt(total_ms);
+
+        const ret = "" + hrs + " hrs " + mins + " mins " + secs + " secs ";
+        res.playlist_duration = ret;
         return res;
     }
     catch (error) {
