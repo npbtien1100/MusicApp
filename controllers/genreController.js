@@ -11,21 +11,32 @@ exports.getseeds = async (req, res, next) => {
 }
 
 exports.getSimilarSongs = async (req, res, next) => {
-    console.log("id: " + req.params.id);
-    req.query.acousticness ? (req.query.acousticness = Number(req.query.acousticness) / 100) : "";
-    req.query.danceability ? (req.query.danceability = Number(req.query.danceability) / 100) : "";
-    req.query.instrumentalness ? (req.query.instrumentalness = Number(req.query.instrumentalness) / 100) : "";
-    req.query.energy ? (req.query.energy = Number(req.query.energy) / 100) : "";
-    req.query.valence ? (req.query.valence = Number(req.query.valence) / 100) : "";
-    req.query.speechiness ? (req.query.speechiness = Number(req.query.speechiness) / 100) : "";
+    req.query.min_acousticness ? (req.query.min_acousticness = Number(req.query.min_acousticness) / 100) : "";
+    req.query.max_acousticness ? (req.query.max_acousticness = Number(req.query.max_acousticness) / 100) : "";
+    req.query.min_danceability ? (req.query.min_danceability = Number(req.query.min_danceability) / 100) : "";
+    req.query.max_danceability ? (req.query.max_danceability = Number(req.query.max_danceability) / 100) : "";
+    req.query.min_instrumentalness ? (req.query.min_instrumentalness = Number(req.query.min_instrumentalness) / 100) : "";
+    req.query.max_instrumentalness ? (req.query.max_instrumentalness = Number(req.query.max_instrumentalness) / 100) : "";
+    req.query.min_energy ? (req.query.min_energy = Number(req.query.min_energy) / 100) : "";
+    req.query.max_energy ? (req.query.max_energy = Number(req.query.max_energy) / 100) : "";
+    req.query.min_valence ? (req.query.min_valence = Number(req.query.min_valence) / 100) : "";
+    req.query.max_valence ? (req.query.max_valence = Number(req.query.max_valence) / 100) : "";
+    req.query.min_speechiness ? (req.query.min_speechiness = Number(req.query.min_speechiness) / 100) : "";
+    req.query.max_speechiness ? (req.query.max_speechiness = Number(req.query.max_speechiness) / 100) : "";
     const obj = {
         seed_genres: req.params.id, limit: Number(req.query.n),
-        target_acousticness: req.query.acousticness,
-        target_danceability: req.query.danceability,
-        target_instrumentalness: req.query.instrumentalness,
-        target_energy: req.query.energy,
-        target_valence: req.query.valence,
-        target_speechiness: req.query.speechiness,
+        min_acousticness: req.query.min_acousticness,
+        max_acousticness: req.query.max_acousticness,
+        min_danceability: req.query.min_danceability,
+        max_danceability: req.query.max_danceability,
+        min_instrumentalness: req.query.min_instrumentalness,
+        max_instrumentalness: req.query.max_instrumentalness,
+        min_energy: req.query.min_energy,
+        max_energy: req.query.max_energy,
+        min_valence: req.query.min_valence,
+        max_valence: req.query.max_valence,
+        min_speechiness: req.query.min_speechiness,
+        max_speechiness: req.query.max_speechiness,
     };
     try {
         const songs = await genreService.getRecommendations(req.params.id, obj);

@@ -1,7 +1,7 @@
 const { passport } = require('../app');
 
 module.exports.spotifyauth = passport.authenticate('spotify', {
-    scope: ['user-read-email', 'user-read-private', 'user-top-read', 'playlist-modify-public', 'playlist-modify-private'],
+    scope: ['user-read-private', 'user-top-read', 'playlist-modify-public', 'playlist-modify-private'],
     showDialog: true,
 })
 

@@ -6,7 +6,7 @@ const userController = require('../controllers/userController');
 /* GET users listing. */
 
 router.get('/getanalysis', authController.checkAuthenticated, userController.getanalysis);
-router.get('/generate', trackController.searchTracks);
-router.get('/playlist-generator/', trackController.getAudioFeatures);
+router.get('/generate-basedon-analysis', userController.generateBaOnAnalysis);
+router.get('/createplaylist', userController.createplaylist);
 
 module.exports = router;

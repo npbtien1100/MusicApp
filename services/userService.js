@@ -1,19 +1,7 @@
 const qs = require('querystring');
 const SpotifyWebApi = require('spotify-web-api-node');
+const spotifyApi = require('../models/spotifyWebApi.model.js');
 
-
-exports.createplaylist = async (req, res, next) => {
-    const jssdkscopes = ["user-top-read", "playlist-modify-public", "playlist-modify-private"];
-    const redirectUriParameters = {
-        client_id: process.env.CLIENT_ID,
-        response_type: 'code',
-        scope: jssdkscopes.join(' '),
-        redirect_uri: encodeURI('http://localhost:5000/login/callback'),
-        show_dialog: true,
-    }
-    const redirectUri = `https://accounts.spotify.com/authorize?${qs.stringify(redirectUriParameters)}`;
-    return redirectUri;
-}
 
 exports.getanalysis = async (req) => {
     const spotifyApi = new SpotifyWebApi({
@@ -51,7 +39,67 @@ exports.getanalysis = async (req) => {
         })
         return res;
     }
-    catch(error){
+    catch (error) {
+        return error;
+    }
+}
+
+exports.generateBasedOnAnalysis = async (req) => {
+    // const spotifyApi = new SpotifyWebApi({
+    //     clientId: process.env.CLIENT_ID,
+    //     accessToken: req.user.accToken
+    // });
+    const obj = { limit: req.body.n, seed_tracks: req.body.tracks, seed_artists: req.body.artists, seed_genres: req.body.genres }
+    console.log("obj day ne: ", obj);
+    try {
+        const temp = await spotifyApi.getRecommendations(obj);
+        const res = { "playlist_duration": "", "tracks": [] };
+
+        let total_ms = 0;
+        temp.body.tracks.forEach((element, index) => {
+            const songname = element.name;
+            const image = element.album.images[1].url;
+            const id = element.id;
+            let artistname = "";
+            for (i = 0; i < element.artists.length - 1; i++) {
+                artistname += element.artists[i].name + ", ";
+            }
+            artistname += element.artists[i].name;
+            total_ms += element.duration_ms;
+            res.tracks.push({ "id": id, "song": songname, "image": image, "artists": artistname });
+        });
+        total_ms = total_ms / 1000;
+        // Hours, minutes and seconds
+        const hrs = parseInt(total_ms / 3600);
+        total_ms -= hrs * 3600;
+        const mins = parseInt(total_ms / 60);
+        total_ms -= mins * 60;
+        const secs = parseInt(total_ms);
+
+        const ret = "" + hrs + " hrs " + mins + " mins " + secs + " secs ";
+        res.playlist_duration = ret;
+        return res;
+    }
+    catch (error) {
+        return error;
+    }
+}
+
+exports.createPlaylist = async (req) => {
+    const spotifyApi = new SpotifyWebApi({
+        clientId: process.env.CLIENT_ID,
+        accessToken: req.user.accToken
+    });
+    try {
+        const temp = await spotifyApi.createPlaylist(req.body.playlist_name, { 'public': req.body.public });
+        const tracks = [];
+        req.body.songids.forEach((element, index) => {
+            tracks.push('spotify:track:' + element);
+        })
+        const kq = await spotifyApi.addTracksToPlaylist(temp.body.id, tracks);
+        return kq.body;
+    }
+    catch (error) {
         return error;
     }
 }

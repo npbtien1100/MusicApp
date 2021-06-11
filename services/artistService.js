@@ -36,7 +36,6 @@ exports.getRecommendations = async (id, obj) => {
             total_ms += element.duration_ms;
             res.tracks.push({ "id": id, "song": songname, "image": image, "artists": artistname });
         });
-        console.log("total duration: ", total_ms);
         total_ms = total_ms / 1000;
         // Hours, minutes and seconds
         const hrs = parseInt(total_ms / 3600);

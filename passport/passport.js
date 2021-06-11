@@ -11,7 +11,7 @@ module.exports = (passport) => {
             {
                 clientID: process.env.CLIENT_ID,
                 clientSecret: process.env.CLIENT_SECRET,
-                callbackURL: 'http://localhost:' + port + authCallbackPath,
+                callbackURL: authCallbackPath,  //'http://localhost:' + port + 
             },
             function (accessToken, refreshToken, expires_in, profile, done) {
                 // asynchronous verification, for effect...
