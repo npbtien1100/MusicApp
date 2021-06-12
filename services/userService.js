@@ -45,15 +45,14 @@ exports.getanalysis = async (req) => {
 }
 
 exports.generateBasedOnAnalysis = async (req) => {
-    // const spotifyApi = new SpotifyWebApi({
-    //     clientId: process.env.CLIENT_ID,
-    //     accessToken: req.user.accToken
-    // });
     const obj = { limit: req.body.n, seed_tracks: req.body.tracks, seed_artists: req.body.artists, seed_genres: req.body.genres }
     console.log("obj day ne: ", obj);
     try {
         const temp = await spotifyApi.getRecommendations(obj);
-        const res = { "playlist_duration": "", "tracks": [] };
+        const res = { "seed_user": {}, "playlist_duration": "", "tracks": [] };
+
+        const user = await spotifyApi.getUser(req.user.id);
+        res.seed_user = { "name": user.body.display_name, "image": user.body.images[0].url };
 
         let total_ms = 0;
         temp.body.tracks.forEach((element, index) => {

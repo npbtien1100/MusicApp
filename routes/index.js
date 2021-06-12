@@ -6,8 +6,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/logout', function (req, res) {
+
+router.get('/logout', function(req,res){
   req.logout();
+  res.send("logout");
 });
 
 module.exports = router;
