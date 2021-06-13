@@ -65,3 +65,12 @@ exports.getnewreleases = async (req, res, next) => {
         res.status(400).json("Error: " + error);
     }
 }
+
+exports.searchyoutube = async (req, res) => {
+    try {
+        const kq = await trackService.searchyoutube(req.query.name);
+        res.json(kq);
+    } catch (error) {
+        res.status(400).json("Error: " + error);
+    }
+}

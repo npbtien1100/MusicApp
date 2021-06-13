@@ -1,4 +1,5 @@
 const spotifyApi = require('../models/spotifyWebApi.model.js');
+const youtubeApi = require('../models/youtubeApi.model.js');
 
 exports.searchTracks = async (query) => {
     const temp = await spotifyApi.searchTracks('track: ' + query, { limit: 5 });
@@ -106,4 +107,17 @@ exports.getnewreleases = async (market, n) => {
     });
 
     return res;
+}
+
+exports.searchyoutube = async (name) => {
+    try {
+        const res = await youtubeApi.search.list({
+            part: 'id,snippet',
+            q: name,
+            maxResults: 5
+        });
+        return res;
+    } catch (error) {
+        return error;
+    }
 }
