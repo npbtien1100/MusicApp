@@ -23,10 +23,15 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // allow to server to accept request from different origin
+    credentials: true, // allow session cookie from browser to pass through
+  })
+);
 
 //routers
-var indexRouter = require('./routes/index');
+var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 const tracksRouter = require("./routes/tracks");
 const artistsRouter = require("./routes/artists");
@@ -43,7 +48,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use('/', indexRouter);
+app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/tracks", tracksRouter);
 app.use("/artists", artistsRouter);
