@@ -58,8 +58,8 @@ exports.getSimilarSongs = async (req, res, next) => {
 }
 
 exports.getnewreleases = async (req, res, next) => {
-    const songs = await trackService.getnewreleases(req.query.market, req.query.n);
     try {
+        const songs = await trackService.getnewreleases(req.query.n);
         res.json(songs);
     } catch (error) {
         res.status(400).json("Error: " + error);
