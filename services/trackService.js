@@ -137,7 +137,6 @@ exports.getnewreleases = async (n) => {
         image: image,
         artists: artistname,
       });
-      console.log(k, last_index);
       if (k == last_index) {
         total_ms = total_ms / 1000;
         // Hours, minutes and seconds
@@ -149,7 +148,6 @@ exports.getnewreleases = async (n) => {
 
         const ret = "" + hrs + " hrs " + mins + " mins " + secs + " secs ";
         res.playlist_duration = ret;
-        console.log("index day ne: ", "Co chay vao day", res);
         return res;
       }
     }

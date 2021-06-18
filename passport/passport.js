@@ -26,8 +26,6 @@ module.exports = (passport) => {
         )
     );
     passport.serializeUser((user, done) => {
-        console.log("user day ne: ", user);
-        //console.log("Access Token day ne: ", accessToken);
         done(null, user);
     });
     // passport.deserializeUser(async (id, done) => {
@@ -43,7 +41,6 @@ module.exports = (passport) => {
     //     return done(null, user);
     // });
     passport.deserializeUser((obj, done) => {
-        console.log("Ham deserialize ne: ", obj);
         done(null, obj);
     });
 }

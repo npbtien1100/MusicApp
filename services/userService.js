@@ -59,7 +59,6 @@ exports.generateBasedOnAnalysis = async (req) => {
     seed_artists: req.body.artists,
     seed_genres: req.body.genres,
   };
-  console.log("obj day ne: ", obj);
   try {
     const temp = await spotifyApi.getRecommendations(obj);
     const res = { seed_user: {}, playlist_duration: "", tracks: [] };

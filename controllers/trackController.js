@@ -1,7 +1,6 @@
 const trackService = require('../services/trackService')
 
 exports.searchTracks = async (req, res, next) => {
-    console.log("query = " + req.query.name);
     const tracks = await trackService.searchTracks(req.query.name);
     try {
         res.send(tracks);

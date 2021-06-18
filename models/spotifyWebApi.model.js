@@ -8,7 +8,6 @@ let timeout;
 // Retrieve an access token.
 spotifyApi.clientCredentialsGrant().then(
   function (data) {
-    console.log('the type of expire in: ', typeof (data.body['expires_in']));
     console.log('The access token expires in ' + data.body['expires_in']);
     console.log('The access token is ' + data.body['access_token']);
 
