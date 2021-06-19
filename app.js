@@ -16,7 +16,7 @@ module.exports.passport = passport;
 
 // Express session
 app.use(
-  session({ secret: "keyboard cat", resave: true, saveUninitialized: true })
+  session({ secret: "keyboard cat", resave: true, saveUninitialized: true, cookie: { sameSite: "none", secure: true } })
 );
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
@@ -27,9 +27,6 @@ app.use(
   cors({
     origin: "https://elegant-mccarthy-8cb819.netlify.app", // allow to server to accept request from different origin
     credentials: true, // allow session cookie from browser to pass through
-    cookie: {
-      sameSite: "none"
-    }
   })
 );
 
