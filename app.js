@@ -28,8 +28,7 @@ app.use(
     origin: "https://elegant-mccarthy-8cb819.netlify.app", // allow to server to accept request from different origin
     credentials: true, // allow session cookie from browser to pass through
     cookie: {
-      sameSite: "none",
-      secure: true,
+      sameSite: "none"
     }
   })
 );
