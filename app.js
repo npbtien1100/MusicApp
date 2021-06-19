@@ -16,7 +16,7 @@ module.exports.passport = passport;
 
 // Express session
 app.use(
-  session({ secret: "keyboard cat", resave: true, saveUninitialized: true, cookie: { sameSite: "none", secure: true } })
+  session({ secret: "keyboard cat", resave: true, saveUninitialized: true, cookie: { sameSite: "none"} })
 );
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
