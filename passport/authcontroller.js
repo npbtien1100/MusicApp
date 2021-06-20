@@ -11,7 +11,7 @@ module.exports.spotifyauth = passport.authenticate("spotify", {
 });
 
 module.exports.authcallback = passport.authenticate("spotify", {
-  failureRedirect: "/login/callback/failure",
+  failureRedirect: process.env.DOMAIN + "/login/callback/failure",
 });
 
 exports.checkAuthenticated = function (req, res, next) {
