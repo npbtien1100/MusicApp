@@ -14,9 +14,18 @@ require("./passport/passport")(passport);
 
 module.exports.passport = passport;
 
+Object.defineProperty(session.Cookie.prototype, 'sameSite', {
+  // sameSite cannot be set to `None` if cookie is not marked secure
+  get() {
+    return this._sameSite === 'none' && !this.secure ? 'lax' : this._sameSite;
+  },
+  set(value) {
+    this._sameSite = value;
+  }
+});
 // Express session
 app.use(
-  session({ secret: "keyboard cat", resave: true, saveUninitialized: true, cookie: { sameSite: "none"} })
+  session({ secret: "keyboard cat", resave: true, saveUninitialized: true, cookie: { secure: 'auto', sameSite: 'none' } })
 );
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
