@@ -10,13 +10,34 @@ var app = express();
 //passport
 const session = require("express-session");
 const passport = require("passport");
+const cookieSession = require("cookie-session");
 require("./passport/passport")(passport);
 
 module.exports.passport = passport;
 
+app.set('trust proxy', 1)
+app.use(
+    cookieSession({
+      name: "__session",
+      keys: ["key1"],
+        maxAge: 60 * 60 * 100,
+        secure: true,
+        sameSite: 'none'
+    })
+);
+
+Object.defineProperty(session.Cookie.prototype, 'sameSite', {
+  // sameSite cannot be set to `None` if cookie is not marked secure
+  get() {
+    return this._sameSite === 'none' && !this.secure ? 'lax' : this._sameSite;
+  },
+  set(value) {
+    this._sameSite = value;
+  }
+});
 // Express session
 app.use(
-  session({ secret: "keyboard cat", resave: true, saveUninitialized: true })
+  session({ secret: "keyboard cat", resave: true, saveUninitialized: true})
 );
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
@@ -27,9 +48,6 @@ app.use(
   cors({
     origin: "https://elegant-mccarthy-8cb819.netlify.app", // allow to server to accept request from different origin
     credentials: true, // allow session cookie from browser to pass through
-    cookie: {
-      sameSite: "none"
-    }
   })
 );
 

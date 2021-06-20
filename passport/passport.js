@@ -2,7 +2,7 @@ const SpotifyStrategy = require('passport-spotify').Strategy;
 const { use } = require('passport');
 //Load User model 
 
-const authCallbackPath = '/login/callback';
+const authCallbackPath = process.env.DOMAIN + '/login/callback';
 const port = process.env.PORT || 5000;
 module.exports = (passport) => {
 
