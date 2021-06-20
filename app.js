@@ -22,7 +22,6 @@ app.use(
       keys: ["key1"],
         maxAge: 60 * 60 * 100,
         secure: true,
-        httpOnly: true,
         sameSite: 'none'
     })
 );
