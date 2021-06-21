@@ -9,9 +9,7 @@ router.get("/", function (req, res, next) {
 router.get(
   "/check-logged-in",
   authController.checkAuthenticated,
-  (req, res, next) => {
-    res.send("logged in");
-  }
+  authController.response_loggedin
 );
 router.get("/logout", function (req, res) {
   req.logout();

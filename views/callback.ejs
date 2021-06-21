@@ -2,7 +2,7 @@
 <html>
 <head>
   <script>
-    window.opener && window.opener.postMessage('logged in', '*');
+    window.opener && window.opener.postMessage('<%= message %>', '*');
     window.close();
   </script>
 </head>
