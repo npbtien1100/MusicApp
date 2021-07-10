@@ -31,7 +31,7 @@ exports.getanalysis = async (req) => {
     let temp_genres = [];
     artists.body.items.forEach((element, index) => {
       const name = element.name;
-      const image = element.images[1].url;
+      const image = element.images[1] ? element.images[1].url : "";
       const id = element.id;
       const followers = element.followers.total;
       res.artists.push({
