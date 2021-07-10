@@ -12,7 +12,7 @@ exports.getanalysis = async (req) => {
     const songs = await spotifyApi.getMyTopTracks({ offset: 0, limit: 10 });
     songs.body.items.forEach((element, index) => {
       const songname = element.name;
-      const image = element.album.images[1].url;
+      const image = element.album.images[1] ? element.album.images[1].url : "";
       const id = element.id;
       let artistname = "";
       for (i = 0; i < element.artists.length - 1; i++) {
@@ -66,13 +66,13 @@ exports.generateBasedOnAnalysis = async (req) => {
     const user = await spotifyApi.getUser(req.user.id);
     res.seed_user = {
       name: user.body.display_name,
-      image: user.body.images[0].url ? user.body.images[0].url : "",
+      image: user.body.images[0] ? user.body.images[0].url : "",
     };
 
     let total_ms = 0;
     temp.body.tracks.forEach((element, index) => {
       const songname = element.name;
-      const image = element.album.images[1].url;
+      const image = element.album.images[1] ? element.album.images[1].url : "";
       const id = element.id;
       let artistname = "";
       for (i = 0; i < element.artists.length - 1; i++) {

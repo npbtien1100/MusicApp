@@ -20,7 +20,7 @@ module.exports = (passport) => {
                     // represent the logged-in user. In a typical application, you would want
                     // to associate the spotify account with a user record in your database,
                     // and return that user instead.
-                    return done(null, { "id": profile.id, "accToken": accessToken, "expires_in": expires_in, "user_img": profile.photos[0] ? profile.photos[0].value : "" });
+                    return done(null, { "id": profile.id, "accToken": accessToken, "expires_in": expires_in, "user_img": profile.photos ? profile.photos[0].value : "" });
                 });
             }
         )

@@ -6,7 +6,7 @@ exports.searchTracks = async (query) => {
   const res = { tracks: [] };
   temp.body.tracks.items.forEach((element, index) => {
     const songname = element.name;
-    const image = element.album.images[2].url;
+    const image = element.album.images[2] ? element.album.images[2].url : "";
     const id = element.id;
     let artistname = "";
     for (i = 0; i < element.artists.length - 1; i++) {
@@ -37,7 +37,7 @@ exports.getAudioFeaturesForTrack = async (id) => {
   res["track"] = {
     id: id,
     song: temp2.body.name,
-    image: temp2.body.album.images[0].url,
+    image: temp2.body.album.images[0] ? temp2.body.album.images[0].url : "",
     artists: artistname,
   };
 
@@ -65,7 +65,7 @@ exports.getRecommendations = async (id, obj) => {
     const seed_track = {
       id: id,
       song: temp2.body.name,
-      image: temp2.body.album.images[0].url,
+      image: temp2.body.album.images[0] ? temp2.body.album.images[0].url : "",
       artists: artistname,
     };
     res["seed_track"] = seed_track;
@@ -73,7 +73,7 @@ exports.getRecommendations = async (id, obj) => {
     let total_ms = 0;
     temp.body.tracks.forEach((element, index) => {
       const songname = element.name;
-      const image = element.album.images[1].url;
+      const image = element.album.images[1] ? element.album.images[1].url : "";
       const id = element.id;
       let artistname = "";
       for (i = 0; i < element.artists.length - 1; i++) {
@@ -118,7 +118,7 @@ exports.getnewreleases = async (n) => {
     const last_index = temp.body.albums.items.length - 1;
     for (let k = 0; k <= last_index; ++k) {
       const element = temp.body.albums.items[k];
-      const image = element.images[1].url;
+      const image = element.images[1] ? element.images[1].url : "";
 
       const temp2 = await spotifyApi.getAlbumTracks(element.id);
 

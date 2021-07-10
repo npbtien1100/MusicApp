@@ -5,7 +5,7 @@ exports.searchArtists = async (query) => {
     const res = { "artists": [] };
     temp.body.artists.items.forEach((element, index) => {
         const name = element.name;
-        const image = element.images[2].url;
+        const image = element.images[2] ? element.images[2].url : "";
         const id = element.id;
         const followers = element.followers.total;
         res.artists.push({ "id": id, "name": name, "image": image, "followers": followers });
@@ -21,12 +21,12 @@ exports.getRecommendations = async (id, obj) => {
         const res = { "seed_artist": {}, "playlist_duration": "", "tracks": [] };
 
         element = temp2.body;
-        res["seed_artist"] = { "id": element.id, "name": element.name, "image": element.images[0].url, "genres": element.genres };
+        res["seed_artist"] = { "id": element.id, "name": element.name, "image": element.images[0] ? element.images[0].url : "", "genres": element.genres };
 
         let total_ms = 0;
         temp.body.tracks.forEach((element, index) => {
             const songname = element.name;
-            const image = element.album.images[1].url;
+            const image = element.album.images[1] ? element.album.images[1].url : "";
             const id = element.id;
             let artistname = "";
             for (i = 0; i < element.artists.length - 1; i++) {
