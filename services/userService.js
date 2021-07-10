@@ -66,7 +66,7 @@ exports.generateBasedOnAnalysis = async (req) => {
     const user = await spotifyApi.getUser(req.user.id);
     res.seed_user = {
       name: user.body.display_name,
-      image: user.body.images[0].url,
+      image: user.body.images[0].url ? user.body.images[0].url : "",
     };
 
     let total_ms = 0;
